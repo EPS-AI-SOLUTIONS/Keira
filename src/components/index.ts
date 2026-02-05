@@ -1,6 +1,6 @@
 /**
  * Keira - Components Barrel Export
- * Regis Architecture v2.9.0
+ * Regis Architecture v2.9.0 - Modular Structure
  */
 
 // Feature components
@@ -11,6 +11,9 @@ export { ProcessingView } from './ProcessingView';
 
 // UI components
 export * from './ui';
+
+// Error Handling
+export { ErrorBoundary, withErrorBoundary } from './ErrorBoundary';
 
 // Utility Components
 export { SuspenseFallback } from './SuspenseFallback';
