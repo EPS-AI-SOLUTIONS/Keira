@@ -1,44 +1,64 @@
-# Dependencies
-node_modules/
-.venv/
+# ===============================================
+# Keira - Comprehensive .gitignore
+# React + Node.js + Python Backend Project
+# ===============================================
 
-# Build
-dist/
-build/
-storybook-static/
-
-# IDE
-.vscode/
-.idea/
+# ----- COMMON (All Projects) -----
 
 # OS
 .DS_Store
 Thumbs.db
+nul
 
-# Env
-.env
-.env.local
-.env.*.local
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # Logs
 *.log
 npm-debug.log*
 
-# Cache
-.cache/
-*.tsbuildinfo
-
-# Test
-coverage/
-test-results/
-playwright-report/
-
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-
-# Temp
+# Temporary
 *.tmp
 *.temp
+
+# ----- NODE.JS -----
+
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.cache/
+.vite/
+vite.config.js
+vite.config.d.ts
+.env
+.env.local
+.env.*.local
+
+# ----- REACT -----
+
+storybook-static/
+playwright-report/
+test-results/
+.playwright/
+
+# ----- PYTHON -----
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+
+# ----- PROJECT-SPECIFIC -----
+
+# Build
+build/
+
+# Work directory
 work/

@@ -1,9 +1,31 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import viteCompression from 'vite-plugin-compression';
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    // Gzip compression
+    ...(isProduction
+      ? [
+          viteCompression({
+            algorithm: 'gzip',
+            ext: '.gz',
+            threshold: 1024,
+          }),
+          // Brotli compression
+          viteCompression({
+            algorithm: 'brotliCompress',
+            ext: '.br',
+            threshold: 1024,
+          }),
+        ]
+      : []),
+  ],
   base: './',
   server: {
     port: 5175,
