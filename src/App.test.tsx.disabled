@@ -1,0 +1,49 @@
+
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import App from './App';
+
+// Mock komponentów, aby testować sam szkielet aplikacji
+vi.mock('./components', () => ({
+  VideoUpload: () => <div data-testid="video-upload">VideoUpload Component</div>,
+  ROISelector: () => <div data-testid="roi-selector">ROISelector Component</div>,
+  MaskEditor: () => <div data-testid="mask-editor">MaskEditor Component</div>,
+  ProcessingView: () => <div data-testid="processing-view">ProcessingView Component</div>,
+}));
+
+// Mock store'a
+const mockCurrentView = vi.fn();
+
+vi.mock('./store', () => ({
+  useAppStore: (selector: any) => {
+    // Symulujemy selektor (s) => s.currentView
+    const state = { currentView: mockCurrentView() };
+    return selector(state);
+  },
+}));
+
+describe('App Component', () => {
+  it('renders VideoUpload view by default (or when currentView is upload)', () => {
+    mockCurrentView.mockReturnValue('upload');
+    render(<App />);
+    expect(screen.getByTestId('video-upload')).toBeInTheDocument();
+  });
+
+  it('renders ROISelector when view is select-roi', () => {
+    mockCurrentView.mockReturnValue('select-roi');
+    render(<App />);
+    expect(screen.getByTestId('roi-selector')).toBeInTheDocument();
+  });
+
+  it('renders ProcessingView when view is processing', () => {
+    mockCurrentView.mockReturnValue('processing');
+    render(<App />);
+    expect(screen.getByTestId('processing-view')).toBeInTheDocument();
+  });
+  
+  it('renders footer with correct version info', () => {
+    mockCurrentView.mockReturnValue('upload');
+    render(<App />);
+    expect(screen.getByText(/Keira v2.0/i)).toBeInTheDocument();
+  });
+});

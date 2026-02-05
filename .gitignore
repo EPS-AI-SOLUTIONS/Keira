@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+.venv/
+
+# Build
+dist/
+build/
+storybook-static/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.cache/
+*.tsbuildinfo
+
+# Test
+coverage/
+test-results/
+playwright-report/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Temp
+*.tmp
+*.temp
+work/

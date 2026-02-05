@@ -1,0 +1,71 @@
+name: Keira CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  # ============================================================================
+  # BACKEND JOBS
+  # ============================================================================
+  backend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r api/requirements.txt
+
+      - name: Run Ruff Linting
+        run: ruff check .
+
+      - name: Run Security Audit
+        run: pip-audit -r api/requirements.txt
+
+      - name: Run Tests
+        run: python -m pytest api/tests
+
+  # ============================================================================
+  # FRONTEND JOBS
+  # ============================================================================
+  frontend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        # Using 'npm ci' for clean install in CI environment
+        # If lockfile is missing/outdated, fallback to install
+        run: npm ci || npm install
+
+      - name: Lint Code
+        run: npm run lint
+
+      - name: Type Check
+        run: npm run type-check
+
+      - name: Run Tests
+        run: npm run test
+
+      - name: Build Production
+        run: npm run build
+
+      - name: Security Audit
+        # audit-level=high means fail only on high/critical vulnerabilities
+        run: npm audit --audit-level=high
